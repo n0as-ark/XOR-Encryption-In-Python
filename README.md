@@ -6,7 +6,7 @@ This repository is built to understand how encryption works at the byte level by
 
 ## Why this project exists
 
-Many people first encounter "encryption" as a password prompt on a file or app. But real encryption is not just about hiding acess behind a password. It depends on how data is transformed, how keys are handled, and how resistant the system is to brute force or known plaintext attacks.
+Many people first encounter "encryption" as a password prompt on a file or app. But real encryption is not just about hiding access behind a password. It depends on how data is transformed, how keys are handled, and how resistant the system is to brute force or known plaintext attacks.
 
 XOR is a useful starting point because it is easy to implement and easy to understand. At the same time, it also shows very clearly why simplicity alone does not mean security. A single byte XOR key has only 256 possible values, which makes brute force attacks practical.
 
