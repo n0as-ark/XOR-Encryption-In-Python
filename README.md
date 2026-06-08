@@ -22,10 +22,12 @@ XOR stands for exclusive OR. It is a bitwise operation that compares two bits an
 | 1 | 1 | 0 |
 
 For example:
+```
 5  →  101
 3  →  011
 ─────────
 6  →  110
+```
 
 One reason XOR is interesting in cryptography is that applying the same key twice restores the original value.
 
