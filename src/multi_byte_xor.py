@@ -38,11 +38,34 @@ def guess_key_length(ciphertext: bytes, max_len: int = 40) -> int:
             
     return min(scores)[1]       # key length with smallest distance is most likely correct
 
+def break_single_byte(data: bytes) -> int:
+    best_score, best_key = -1, 0
+    for k in range(256):
+        decrypted = bytes(b ^ k for b in data)
+        score = sum(
+            1 for b in decrypted
+            if chr(b).lower() in "etaoin shrdlu"
+        )
+        if score > best_score:
+            best_score, best_key = score, k
+    return best_key
+ 
+def break_repeating_xor(ciphertext: bytes, key_len: int) -> bytes:
+    return bytes(
+        break_single_byte(ciphertext[i::key_len])
+        for i in range(key_len)
+    )
+
 a = b"Hello"
 b = b"World"
 print(hamming_distance(a, b))  # 14
 
+ciphertext = xor_encrypt(b"Hello, World!", b"K")
+print(break_single_byte(ciphertext))    # 75 (ASCII value of 'K')
+
 # example — works best with long, non-repeating plaintext
 message = b"In cryptography, a cipher is an algorithm for performing encryption or decryption. When we encrypt data with a repeating key, the key cycles through the plaintext. This creates a pattern that can be detected using statistical analysis."
 ciphertext = xor_encrypt(message, b"SECRET")
-print(guess_key_length(ciphertext))  # 6
+key_len = guess_key_length(ciphertext)
+print(key_len)  # 6
+print(break_repeating_xor(ciphertext, key_len))  # b'SECRET'
